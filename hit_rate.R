@@ -24,4 +24,3 @@ output=format(cbind(hit_rate,hit_rate.act,hit_rate.inact),digits=4, nsmall=4,sci
 ofile=args[2]
 
 write.table(output,ofile,sep="\t",quote=F,col.names=F,row.names=F)
-
