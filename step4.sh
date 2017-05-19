@@ -20,7 +20,6 @@ do
 
   #Pubmed CID to Ambit_InChIKey, may not necessary
   awk 'BEGIN{FS="\t";OFS="\t"} NR==FNR{a[$1]=$0;next} {if($1 in a) print $2,a[$1]}' $2/htsfp/$aid.htsfp.250.txt path2Ambit_standardized_PubChemCompounds/PubChem_Std_Compound_2016-04-08.txt | sort -k 1,1f -k 5,5f > $2/htsfp/$aid.htsfp.inchikey.sorted.txt
-  
   awk -F"\t" '{print $1}' $2/htsfp/$aid.htsfp.inchikey.sorted.txt | uniq -c | sed 's|^ \+||g' | sed 's| |\t|g' | awk -v OFS="\t" '{print $2,$1}' > $2/htsfp/$aid.inchikey.count.txt
   awk 'BEGIN{FS="\t";OFS="\t"} $2>1' $2/htsfp/$aid.inchikey.count.txt  > $2/htsfp/$aid.inchikey.count_lastrow_medianrow.dup.txt
 
@@ -51,3 +50,10 @@ do
 done < $ifile
 rm -fr $tmpdir
 echo Done
+
+### mean value
+## aggregate $3 grouped by $1, output is the average value
+# awk -F"[,\t]" '{a[$1]+=$3;b[$1]+=1} END {for (i in a) print i,a[i]/b[i];}' input > ouput
+## If the file names happen to share a pattern
+#3 awk '{a[$2]+=$1} END{for (i in a) print a[i],i}' *cnt
+
